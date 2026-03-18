@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct RegistrationView: View {
+    
     @Environment(\.dismiss) private var dismiss
+    @Environment(AuthManager.self) private var authManager
     
     @State private var email = ""
     @State private var username = ""
@@ -80,7 +82,7 @@ struct RegistrationView: View {
             }
             
             Button {
-                
+                signUp()
             } label: {
                 Text("Sign Up")
                     .font(.headline)
@@ -90,6 +92,8 @@ struct RegistrationView: View {
                     .foregroundStyle(.white)
                     .padding(.vertical, 8)
             }
+            .disabled(!formIsValid)
+            .opacity( formIsValid ? 1.0 : 0.5)
             
             Spacer()
             
@@ -111,6 +115,21 @@ struct RegistrationView: View {
     }
 }
 
+
+extension RegistrationView {
+    func signUp() {
+        Task {
+            isLoading = true
+            await authManager.signUp(email: email, password: password, username: username)
+            isLoading = false
+        }
+    }
+    var formIsValid: Bool {
+        return email.isValidEmail() && passwordMatch && username.count > 1
+    }
+}
+
 #Preview {
     RegistrationView()
+        .environment(AuthManager())
 }
