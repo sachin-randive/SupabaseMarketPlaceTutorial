@@ -26,7 +26,7 @@ final class UserManager {
            
             print("DEBUG: Current user: \(String(describing: currentUser))")
         } catch {
-            print("DEBUG:- Failed to fetch current user:\(error.localizedDescription)")
+            print("DEBUG: Failed to fetch current user:\(error.localizedDescription)")
         }
        
     }

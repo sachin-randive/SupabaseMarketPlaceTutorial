@@ -21,7 +21,7 @@ struct UserService {
     func fetchCurrentUser() async throws -> User {
         let supabaseUser = try await client.auth.session.user
         
-        return try await client.from("Users")
+        return try await client.from("users")
             .select()
             .eq("id", value: supabaseUser.id.uuidString)
             .single()

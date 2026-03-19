@@ -9,11 +9,38 @@ import SwiftUI
 
 struct UserProfileView: View {
     @Environment(AuthManager.self) private var authManager
+    @Environment(UserManager.self) private var userManager
     
     var body: some View {
         
-        Button("Sign Out") {
-            Task{ await authManager.signOut() }
+        NavigationStack {
+            List {
+                if let currentUser = userManager.currentUser {
+                    Section {
+                        HStack {
+                            Image(systemName: "person.circle.fill")
+                                .resizable()
+                                .frame(width: 72, height: 72)
+                                .foregroundStyle(.secondary)
+                            
+                            VStack(alignment: .leading) {
+                                Text(currentUser.username)
+                                
+                                Text(currentUser.email)
+                                    .foregroundStyle(.secondary)
+                            }
+                            .font(.subheadline)
+                        }
+                    }
+                    
+                    Section("Account") {
+                        Button("Sign Out", role: .destructive) {
+                            Task{ await authManager.signOut() }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Profile")
         }
     }
 }
@@ -21,4 +48,5 @@ struct UserProfileView: View {
 #Preview {
     UserProfileView()
         .environment(AuthManager())
+        .environment(UserManager())
 }
