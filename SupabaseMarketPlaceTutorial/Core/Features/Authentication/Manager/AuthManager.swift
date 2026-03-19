@@ -40,6 +40,7 @@ final class AuthManager {
             print("Sign-up error: \(error)")
         }
     }
+    
     func signOut() async {
         do {
             try await authService.signOut()
