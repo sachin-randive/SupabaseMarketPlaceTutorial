@@ -19,5 +19,19 @@ struct StorageManager {
         )
     }
     
+    func uploadProfilePhoto(for user: User, imageData: Data) async throws -> String {
+        let path = "\(user.id)avatar.jpg"
+        
+        let fullPath = try await client.storage
+            .from("avatars")
+            .upload(path, data: imageData)
+            .path
+        
+        print("DEBUG: Full path is \(fullPath)")
+        
+        let publicURL = "\(Constants.projectURLSring)/storage/v1/object/public/avatars/\(path)"
+        return publicURL
+    }
+    
 }
 

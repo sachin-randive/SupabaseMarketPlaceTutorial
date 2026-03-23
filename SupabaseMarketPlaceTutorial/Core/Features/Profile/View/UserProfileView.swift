@@ -11,13 +11,15 @@ struct UserProfileView: View {
     @Environment(AuthManager.self) private var authManager
     @Environment(UserManager.self) private var userManager
     
+    @State private var isPresentingImagePicker: Bool = false
+    
     var body: some View {
         
         NavigationStack {
             List {
                 if let currentUser = userManager.currentUser {
                     Section {
-                        HStack {
+                        /*HStack {
                             Image(systemName: "person.circle.fill")
                                 .resizable()
                                 .frame(width: 72, height: 72)
@@ -30,6 +32,9 @@ struct UserProfileView: View {
                                     .foregroundStyle(.secondary)
                             }
                             .font(.subheadline)
+                        }*/
+                        AvatarView(imageUrl: currentUser.profileImageUrl, profileImage: nil, size: .large) {
+                            isPresentingImagePicker = true
                         }
                     }
                     
