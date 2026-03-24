@@ -45,7 +45,7 @@ struct AvatarView: View {
             }
         }
         .onTapGesture {
-            if let onTap {  }
+            if let onTap { onTap() }
         }
     }
 }

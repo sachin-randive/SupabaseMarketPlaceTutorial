@@ -20,7 +20,7 @@ struct StorageManager {
     }
     
     func uploadProfilePhoto(for user: User, imageData: Data) async throws -> String {
-        let path = "\(user.id)avatar.jpg"
+        let path = "\(user.id)/avatar.jpg"
         
         let fullPath = try await client.storage
             .from("avatars")

@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct UserProfileView: View {
     @Environment(AuthManager.self) private var authManager
     @Environment(UserManager.self) private var userManager
     
     @State private var isPresentingImagePicker: Bool = false
+    @State private var selectedItem: PhotosPickerItem? = nil
+    @State private var profileImage: Image? = nil
     
     var body: some View {
         
@@ -19,21 +22,11 @@ struct UserProfileView: View {
             List {
                 if let currentUser = userManager.currentUser {
                     Section {
-                        /*HStack {
-                            Image(systemName: "person.circle.fill")
-                                .resizable()
-                                .frame(width: 72, height: 72)
-                                .foregroundStyle(.secondary)
-                            
-                            VStack(alignment: .leading) {
-                                Text(currentUser.username)
-                                
-                                Text(currentUser.email)
-                                    .foregroundStyle(.secondary)
-                            }
-                            .font(.subheadline)
-                        }*/
-                        AvatarView(imageUrl: currentUser.profileImageUrl, profileImage: nil, size: .large) {
+                        AvatarView(
+                            imageUrl: currentUser.profileImageUrl,
+                            profileImage: profileImage,
+                            size: .large
+                        ) {
                             isPresentingImagePicker = true
                         }
                     }
@@ -46,6 +39,26 @@ struct UserProfileView: View {
                 }
             }
             .navigationTitle("Profile")
+        }
+        .photosPicker(isPresented: $isPresentingImagePicker, selection: $selectedItem)
+        .task(id: selectedItem ) { await onImageSelected() }
+    }
+}
+
+private extension UserProfileView {
+    func onImageSelected() async {
+        guard let selectedItem else { return }
+        guard let user = userManager.currentUser else { return }
+        do {
+            guard let data = try await selectedItem.loadTransferable(type: Data.self) else { return }
+            guard let uiImage = UIImage(data: data) else { return }
+            guard let imageData = uiImage.jpegData(compressionQuality: 0.5) else { return }
+            profileImage = Image(uiImage: uiImage)
+            
+            let imageUrl = try await StorageManager().uploadProfilePhoto(for: user, imageData: imageData)
+            await userManager.updateProfileImageURL(imageUrl)
+        } catch {
+            print("Failed to upload image data: \(error.localizedDescription)")
         }
     }
 }

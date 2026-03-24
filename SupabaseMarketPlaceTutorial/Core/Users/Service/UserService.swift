@@ -14,7 +14,12 @@ struct UserService {
     init() {
         self.client = SupabaseClient.init(
             supabaseURL: URL(string: Constants.projectURLSring)!,
-            supabaseKey: Constants.projectAPIKey
+            supabaseKey: Constants.projectAPIKey,
+            options: SupabaseClientOptions(
+                    auth: .init(
+                        emitLocalSessionAsInitialSession: true
+                    )
+                )
         )
     }
     
@@ -27,5 +32,15 @@ struct UserService {
             .single()
             .execute()
             .value
+    }
+    
+    func updateProfileImageURL(_ imageURL: String) async throws {
+        let uid = try await client.auth.session.user.id.uuidString
+        
+        try await client
+            .from("users")
+            .update(["profile_image_url": imageURL])
+            .eq("id", value: uid)
+            .execute()
     }
 }

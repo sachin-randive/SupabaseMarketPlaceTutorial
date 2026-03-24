@@ -14,7 +14,12 @@ struct SupabaseAuthService {
     init() {
         self.client = SupabaseClient.init(
             supabaseURL: URL(string: Constants.projectURLSring)!,
-            supabaseKey: Constants.projectAPIKey
+            supabaseKey: Constants.projectAPIKey,
+            options: SupabaseClientOptions(
+                    auth: .init(
+                        emitLocalSessionAsInitialSession: true
+                    )
+                )
         )
     }
     

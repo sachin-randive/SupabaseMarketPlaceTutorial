@@ -28,6 +28,14 @@ final class UserManager {
         } catch {
             print("DEBUG: Failed to fetch current user:\(error.localizedDescription)")
         }
-       
+    }
+    
+    func updateProfileImageURL(_ imageURL: String) async {
+        do {
+            try await service.updateProfileImageURL(imageURL)
+            self.currentUser?.profileImageUrl = imageURL
+        } catch {
+            print("DEBUG: Failed to update user profile image url with error: \(error)")
+        }
     }
 }
