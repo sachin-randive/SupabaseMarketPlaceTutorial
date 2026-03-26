@@ -6,11 +6,15 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct CreateListingView: View {
     @State private var title: String = ""
     @State private var price: String = ""
     @State private var description: String = ""
+    
+    @State private var pickedPhotoItems: [PhotosPickerItem] = []
+    @State private var selectedImages: [UIImage] = []
     
     var body: some View {
         NavigationStack {
@@ -38,7 +42,14 @@ struct CreateListingView: View {
                 }
                 
                 Section("Photos") {
-                    
+                    VStack(alignment: .leading) {
+                        ListingImagesView(pickedPhotoItems: $pickedPhotoItems, selectedImages: $selectedImages)
+                        Divider()
+                        Text("You can add up to 5 photos")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                            .padding(.vertical, 4)
+                    }
                 }
                 //TODO: Listing Category Picker
             }
