@@ -105,4 +105,83 @@ extension Listing {
         sellerName: "Sam Smith",
         sellerProfileImageUrl: "https://picsum.photos/100/100"
     )
+    
+    static var mocks: [Listing] = [
+        Listing(
+            id: UUID().uuidString,
+            title: "Air Pods",
+            description: "Brand new AirPods, never used.",
+            price: 299,
+            imageUrls: ["runnig-shoes"],
+            category: .electronics,
+            createdAt: Date(),
+            likesCount: 4,
+            status: .active,
+            isFavorite: false,
+            sellerID: UUID().uuidString,
+            sellerName: "Sam Smith",
+            sellerProfileImageUrl: "https://picsum.photos/100/100"
+        ),
+        Listing(
+            id: UUID().uuidString,
+            title: "iPhone 13",
+            description: "Good condition, minor scratches.",
+            price: 450,
+            imageUrls: ["iphone"],
+            category: .electronics,
+            createdAt: Date(),
+            likesCount: 10,
+            status: .active,
+            isFavorite: true,
+            sellerID: UUID().uuidString,
+            sellerName: "John Doe",
+            sellerProfileImageUrl: "https://picsum.photos/101/100"
+        ),
+        Listing(
+            id: UUID().uuidString,
+            title: "Running Shoes",
+            description: "Nike shoes, barely used.",
+            price: 120,
+            imageUrls: ["running-shoes"],
+            category: .fashion,
+            createdAt: Date(),
+            likesCount: 6,
+            status: .active,
+            isFavorite: false,
+            sellerID: UUID().uuidString,
+            sellerName: "Alice",
+            sellerProfileImageUrl: "https://picsum.photos/102/100"
+        ),
+        Listing(
+            id: UUID().uuidString,
+            title: "Office Chair",
+            description: "Ergonomic chair, very comfortable.",
+            price: 200,
+            imageUrls: ["chair"],
+            category: .home,
+            createdAt: Date(),
+            likesCount: 2,
+            status: .active,
+            isFavorite: false,
+            sellerID: UUID().uuidString,
+            sellerName: "Bob",
+            sellerProfileImageUrl: "https://picsum.photos/103/100"
+        ),
+        Listing(
+            id: UUID().uuidString,
+            title: "Gaming Laptop",
+            description: "High performance laptop.",
+            price: 900,
+            imageUrls: ["laptop"],
+            category: .electronics,
+            createdAt: Date(),
+            likesCount: 15,
+            status: .active,
+            isFavorite: true,
+            sellerID: UUID().uuidString,
+            sellerName: "Chris",
+            sellerProfileImageUrl: "https://picsum.photos/104/100"
+        )
+    ]
+    
 }

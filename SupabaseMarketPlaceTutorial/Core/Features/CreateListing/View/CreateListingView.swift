@@ -12,6 +12,7 @@ struct CreateListingView: View {
     @State private var title: String = ""
     @State private var price: String = ""
     @State private var description: String = ""
+    @State private var category: Listing.Category = .other
     
     @State private var pickedPhotoItems: [PhotosPickerItem] = []
     @State private var selectedImages: [UIImage] = []
@@ -51,7 +52,11 @@ struct CreateListingView: View {
                             .padding(.vertical, 4)
                     }
                 }
-                //TODO: Listing Category Picker
+                Picker("Category", selection: $category) {
+                    ForEach(Listing.Category.allCases) { cat in
+                        Text(cat.displayName).tag(cat)
+                    }
+                }
             }
             .navigationTitle("New Listing")
             .toolbar {
